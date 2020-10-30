@@ -13,27 +13,24 @@
         <table class="table table-striped table-bordered table-hover" v-if="state === constants.LOADED_SUCCESS">
           <thead>
           <tr>
-            <th scope="col">Sku</th>
-            <th scope="col">Status</th>
-            <th scope="col">Name</th>
-            <th scope="col">Master Price</th>
-            <th scope="col">Action</th>
+            <th scope="col" class="text-center">Sku</th>
+            <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Master Price</th>
+            <th scope="col" class="text-center">Action</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(product,index) in products" :key="index">
+          <tr v-for="(product) in products" :key="product.id">
             <td>{{ product.master.sku }}</td>
             <td>{{ formatStatus(product.available_on) }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.display_price }}</td>
             <td class="text-center">
-              <button class="btn btn-primary" data-toggle="tooltip" data-placement="bot" title="Edit">
+              <router-link :to="{name: 'ProductEdit', params: {product_id: product.id}}" class="btn btn-primary mr-3" data-toggle="tooltip" data-placement="bot" title="Edit">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </button>
-              <button class="btn btn-success mx-3" data-toggle="tooltip" data-placement="top" title="Clone">
-                <i class="fa fa-clone" aria-hidden="true"></i>
-              </button>
-              <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Remove">
+              </router-link>
+              <button @click="deleteProduct(product.id)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Remove">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </td>
@@ -59,22 +56,34 @@ export default {
   methods: {
     formatStatus (availableOn) {
       return availableOn !== null ? 'Available' : 'No available date set'
+    },
+    deleteProduct (productId) {
+      this.axios.delete(this.$hostServer + `/api/v1/products/${productId}`).then((response) => {
+        this.$toasted.success('Delete Product Successfully')
+        this.state = productConstants.LOADING
+        this.fetchData()
+      }).catch(e => {
+        this.$toasted.error('Delete Fail')
+      })
+    },
+    fetchData () {
+      this.axios.get(this.$hostServer + '/api/v1/products?q[s]=id%20desc').then((response) => {
+        let data = response.data
+        if (typeof data !== 'undefined') {
+          this.products = data.products
+          if (data.products.length > 0) {
+            this.state = this.constants.LOADED_SUCCESS
+          } else {
+            this.state = this.constants.DATA_NOT_FOUND
+          }
+        }
+      }).catch((e) => {
+        this.state = this.constants.DATA_NOT_FOUND
+      })
     }
   },
   created () {
-    this.axios.get(this.$hostServer + '/api/v1/products').then((response) => {
-      let data = response.data
-      if (typeof data !== 'undefined') {
-        this.products = data.products
-        if (data.products.length > 0) {
-          this.state = this.constants.LOADED_SUCCESS
-        } else {
-          this.state = this.constants.DATA_NOT_FOUND
-        }
-      }
-    }).catch((e) => {
-      this.state = this.constants.DATA_NOT_FOUND
-    })
+    this.fetchData()
   }
 }
 </script>

@@ -11,16 +11,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import VueMoment from 'vue-moment'
 import Toasted from 'vue-toasted'
 
-let Options = {
+let options = {
   theme: 'toasted-primary',
   position: 'top-right',
-  duration: 3000
+  duration: 3000,
+  singleton: true
 }
 
-Vue.use(Toasted)
-
 // you can also pass options, check options reference below
-Vue.use(Toasted, Options)
+Vue.use(Toasted, options)
 
 // Vue.use(require('vue-moment'))
 Vue.use(VueAxios, axios)

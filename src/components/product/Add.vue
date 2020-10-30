@@ -20,7 +20,7 @@
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="sku">SKU</label>
-              <input type="text" :class="{ 'is-invalid':errors.sku}" class="form-control" id="sku" v-model="product.sku" required>
+              <input type="text" :class="{ 'is-invalid':errors.sku}" class="form-control" id="sku" v-model="product.sku">
               <div v-if="error && errors.sku" class="invalid-feedback">
                 {{ errors.sku[0] }}
               </div></div>
@@ -41,7 +41,7 @@
           <div class="form-row">
             <div class="form-group col-md-4">
               <label>AVAILABLE ON</label>
-              <datepicker @selected="formatDate" :class="{ 'is-invalid':errors.available_on}" v-model="product.available_on" format="yyyy/MM/dd" :bootstrap-styling="true" :readonly="false" required></datepicker>
+              <datepicker @selected="formatDate" :class="{ 'is-invalid':errors.available_on}" v-model="product.available_on" format="yyyy/MM/dd" :bootstrap-styling="true" :readonly="false"></datepicker>
               <div v-if="error && errors.available_on" class="invalid-feedback">
                 {{ errors.available_on[0] }}
               </div>
@@ -76,13 +76,12 @@ export default {
       product: {
         name: '',
         sku: '',
-        prototype_id: '',
         price: '',
         available_on: '',
         shipping_category_id: 0
       },
-      prototypeOption: [{id: 0, text: 'Shirt'}, {id: 1, text: 'Bag'}, {id: 1, text: 'Mugs'}],
       shippingCategoryOption: [{id: 0, text: 'None'}, {id: 1, text: 'Default'}],
+      prototypeOption: [{id: 0, text: 'Shirt'}, {id: 1, text: 'Bag'}, {id: 1, text: 'Mugs'}],
       error: false,
       errors: {}
     }
@@ -102,6 +101,7 @@ export default {
         this.errors = {}
         if (typeof response.data !== 'undefined') {
           this.$toasted.success('Create Product Successfully')
+          this.$router.push({name: 'ProductIndex'})
         } else {
           this.$toasted.error('Create Product Fail')
         }
