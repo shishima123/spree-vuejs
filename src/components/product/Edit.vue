@@ -1,67 +1,20 @@
 <template>
-  <form @submit.prevent="update">
     <div class="container">
       <div class="row">
         <div class="col-12 d-flex justify-content-between py-3">
           <div class="d-flex">
             <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
             <h3>&nbsp;/&nbsp;</h3>
-            <h3 class="text-center m-0">Edit Product</h3>
+            <h3 class="text-center m-0">{{ product.name }}</h3>
           </div>
         </div>
-
-        <div class="col-9 row">
-            <div class="col-9">
-              <div class="form-group">
-                <label for="name">NAME *</label>
-                <input type="text" class="form-control" :class="{ 'is-invalid':errors.name}" id="name" v-model="product.name" required>
-                <div v-if="error && errors.name" class="invalid-feedback">
-                  {{ errors.name[0] }}
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-12">
-                  <label for="sku">SLUG *</label>
-                  <input type="text" :class="{ 'is-invalid':errors.sku}" class="form-control" id="sku" v-model="product.sku">
-                  <div v-if="error && errors.sku" class="invalid-feedback">
-                    {{ errors.sku[0] }}
-                  </div>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-12">
-                  <label for="sku">DESCRIPTION *</label>
-                  <textarea type="text" rows="20" :class="{ 'is-invalid':errors.sku}" class="form-control" id="sku" v-model="product.sku"></textarea>
-                  <div v-if="error && errors.sku" class="invalid-feedback">
-                    {{ errors.sku[0] }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="price">MASTER PRICE *</label>
-                  <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="price" v-model="product.price" required>
-                  <div v-if="error && errors.price" class="invalid-feedback">
-                    {{ errors.price[0] }}
-                  </div></div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="price">COST PRICE</label>
-                  <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="price" v-model="product.price" required>
-                  <div v-if="error && errors.price" class="invalid-feedback">
-                    {{ errors.price[0] }}
-                  </div></div>
-              </div>
-            </div>
-        </div>
-
+      </div>
+      <div class="row">
+        <router-view></router-view>
         <div class="col-3">
           <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action active"><i class="fa fa-pencil mr-1" aria-hidden="true"></i>Details</a>
-            <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-file-image-o mr-1" aria-hidden="true"></i>Images</a>
+            <router-link :to="{name: 'ProductDetail'}" class="list-group-item list-group-item-action" active-class="active" exact><i class="fa fa-pencil mr-1" aria-hidden="true"></i>Details</router-link>
+            <router-link :to="{name: 'ImageIndex'}" class="list-group-item list-group-item-action" active-class="active"><i class="fa fa-file-image-o mr-1" aria-hidden="true"></i>Images</router-link>
             <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-th-large mr-1" aria-hidden="true"></i>Variants</a>
             <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-list-alt mr-1" aria-hidden="true"></i>Properties</a>
             <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-home mr-1" aria-hidden="true"></i>Stock</a>
@@ -69,7 +22,6 @@
         </div>
       </div>
     </div>
-  </form>
 
 </template>
 
