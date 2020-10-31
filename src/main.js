@@ -10,6 +10,10 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VueMoment from 'vue-moment'
 import Toasted from 'vue-toasted'
+import { store } from './store/store'
+import Multiselect from 'vue-multiselect'
+
+Vue.component('multiselect', Multiselect)
 
 let options = {
   theme: 'toasted-primary',
@@ -36,6 +40,15 @@ axios.defaults.headers.common['Access-Control-Allow-origin'] = '*'
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
+})
+
+window.addEventListener('message', (e) => {
+  if (e.data && typeof e.data === 'string' && e.data.match(/webpackHotUpdate/)) {
+    console.log('hot reload happened')
+
+    console.clear()
+  }
 })

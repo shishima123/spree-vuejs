@@ -1,12 +1,12 @@
 <template>
-    <div class="col-9 row">
-      Image
+  <div class="col-9 row">
+      StockIndex
     </div>
 </template>
 
 <script>
 export default {
-  name: 'ImageIndex'
+  name: 'StockIndex'
 }
 </script>
 
