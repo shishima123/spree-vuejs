@@ -1,14 +1,18 @@
 <template>
     <div class="container">
-      <div class="row">
-        <div class="col-12 d-flex justify-content-between py-3">
-          <div class="d-flex">
-            <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
-            <h3>&nbsp;/&nbsp;</h3>
-            <h3 class="text-center m-0">{{ product.name }}</h3>
-          </div>
+      <product-header/>
+      <portal to="product-header-title">
+        <div class="d-flex">
+          <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
+          <h3>&nbsp;/&nbsp;</h3>
+          <h3 class="text-center m-0">{{ product.name }}</h3>
         </div>
-      </div>
+      </portal>
+      <portal to="product-header-button">
+        <router-link :to="{name:'ProductAdd'}" class="btn btn-success"><i class="fa fa-plus mr-1" aria-hidden="true"></i>New
+          Product
+        </router-link>
+      </portal>
       <div class="row">
         <router-view></router-view>
         <div class="col-3">
@@ -26,6 +30,7 @@
 </template>
 
 <script>
+import ProductHeader from './Header'
 
 export default {
   name: 'product.edit',
@@ -36,6 +41,9 @@ export default {
     product () {
       return this.$store.state.product
     }
+  },
+  components: {
+    ProductHeader
   }
 }
 </script>

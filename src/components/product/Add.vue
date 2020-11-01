@@ -1,13 +1,14 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-12 d-flex justify-content-between py-3">
-        <div class="d-flex">
-          <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
-          <h3>&nbsp;/&nbsp;</h3>
-          <h3 class="text-center m-0">New Product</h3>
-        </div>
+    <product-header/>
+    <portal to="product-header-title">
+      <div class="d-flex">
+        <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
+        <h3>&nbsp;/&nbsp;</h3>
+        <h3 class="text-center m-0">New Product</h3>
       </div>
+    </portal>
+    <div class="row">
       <div class="col-12">
         <form @submit.prevent="create">
           <div class="form-group">
@@ -68,7 +69,7 @@
 import Datepicker from 'vuejs-datepicker'
 import Select2 from 'v-select2-component'
 import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css'
-
+import ProductHeader from './Header'
 export default {
   name: 'product.add',
   data () {
@@ -121,7 +122,8 @@ export default {
   },
   components: {
     Datepicker,
-    Select2
+    Select2,
+    ProductHeader
   }
 }
 </script>

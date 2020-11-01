@@ -1,13 +1,12 @@
 <template>
     <div class="col-9">
-      <portal to="product-header-button">
-        <router-link :to="{name:'ImageNew'}" class="btn btn-success"><i class="fa fa-plus mr-1" aria-hidden="true"></i>New
-          Image
-        </router-link>
+      <portal to="product-header-title">
+        <div class="d-flex">
+          <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
+          <h3>&nbsp;/&nbsp;</h3>
+          <h3 class="text-center m-0">{{ product.name }} New Image</h3>
+        </div>
       </portal>
-      <div v-if="(images.length === 0)" class="alert alert-warning" role="alert">
-        No Image found.
-      </div>
     </div>
 </template>
 

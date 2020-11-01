@@ -1,5 +1,5 @@
 <template>
-    <div class="col-9 row">
+    <div class="col-9">
       <div class="col-9">
         <div class="form-group">
           <label for="product_name">NAME *</label>

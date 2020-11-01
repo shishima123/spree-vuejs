@@ -13,6 +13,8 @@ import Toasted from 'vue-toasted'
 import { store } from './store/store'
 import Multiselect from 'vue-multiselect'
 
+import PortalVue from 'portal-vue'
+Vue.use(PortalVue)
 Vue.component('multiselect', Multiselect)
 
 let options = {

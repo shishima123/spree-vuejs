@@ -5,10 +5,10 @@ import ProductAdd from '@/components/product/Add'
 import ProductEdit from '@/components/product/Edit'
 import ProductDetail from '@/components/product/Detail'
 import ImageIndex from '@/components/image/Index'
+import ImageAdd from '@/components/image/Add'
 import PropertyIndex from '@/components/property/Index'
 import StockIndex from '@/components/stock/Index'
 import VariantIndex from '@/components/variant/Index'
-
 Vue.use(Router)
 
 export default new Router({
@@ -35,7 +35,14 @@ export default new Router({
         {
           path: 'image',
           name: 'ImageIndex',
-          component: ImageIndex
+          component: ImageIndex,
+          children: [
+            {
+              path: 'new',
+              name: 'ImageNew',
+              component: ImageAdd
+            }
+          ]
         },
         {
           path: 'property',
