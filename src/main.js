@@ -12,10 +12,12 @@ import VueMoment from 'vue-moment'
 import Toasted from 'vue-toasted'
 import { store } from './store/store'
 import Multiselect from 'vue-multiselect'
+import Spinner from './components/spinner/spinner'
 
 import PortalVue from 'portal-vue'
 Vue.use(PortalVue)
 Vue.component('multiselect', Multiselect)
+Vue.component('spinner', Spinner)
 
 let options = {
   theme: 'toasted-primary',

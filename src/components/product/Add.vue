@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { productMixin } from '../../mixins/product'
 import Datepicker from 'vuejs-datepicker'
 import Select2 from 'v-select2-component'
 import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css'
@@ -87,16 +88,11 @@ export default {
       errors: {}
     }
   },
+  mixins: [productMixin],
   methods: {
     create () {
       let url = this.$hostServer + '/api/v1/products?'
-      Object.keys(this.product).forEach((key) => {
-        let value = this.product[key]
-        if (value !== '') {
-          url += `product[${key}]=${this.product[key]}&`
-        }
-      })
-      url = url.slice(0, -1)
+      url = this.generateUrlToCreateAndUpdate(url, this.product)
       this.axios.post(url).then((response) => {
         this.error = false
         this.errors = {}

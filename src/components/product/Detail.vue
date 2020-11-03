@@ -1,5 +1,5 @@
 <template>
-    <div class="col-9">
+    <div class="col-9 row">
       <div class="col-9">
         <div class="form-group">
           <label for="product_name">NAME *</label>
@@ -115,11 +115,11 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="product_shipping_category_id">SHIPPING CATEGORY</label>
-            <Select2 id="product_shipping_category_id" :class="{ 'is-invalid':errors.shipping_category_id}"
+            <Select2 id="product_shipping_category_id" :class="{ 'is-invalid':errors.shipping_category}"
                      v-model="product['shipping_category_id']" :settings="{ theme: 'bootstrap4' }"
                      :options="shippingCategoryOption"/>
-            <div v-if="error && errors.shipping_category_id" class="invalid-feedback">
-              {{ errors.shipping_category_id[0] }}
+            <div v-if="error && errors.shipping_category" class="invalid-feedback">
+              {{ errors.shipping_category[0] }}
             </div>
           </div>
         </div>
@@ -128,14 +128,23 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="product_taxon_ids">TAXONS</label>
-            <multiselect v-model="product.taxons"
-                         id="product_taxon_ids" label="pretty_name" track-by="id"
-                         placeholder="Add a Taxon" open-direction="bottom"
-                         :options="taxonsOption" :multiple="true" :searchable="true"
+            <multiselect v-model="product.taxon_ids"
+                         id="product_taxon_ids"
+                         label="pretty_name"
+                         track-by="id"
+                         placeholder="Add a Taxon"
+                         open-direction="bottom"
+                         :options="taxonsOption"
+                         :multiple="true"
+                         :searchable="true"
                          :loading="isLoading"
-                         :internal-search="false" :clear-on-select="false" :close-on-select="false"
+                         :internal-search="false"
+                         :clear-on-select="false"
+                         :close-on-select="false"
                          :options-limit="300"
-                         :show-no-results="false" :hide-selected="true" @search-change="getTaxonsOption">
+                         :show-no-results="false"
+                         :hide-selected="true"
+                         @search-change="getTaxonsOption">
               <template slot="option" slot-scope="props">
                 <div class="option__desc"><span class="option__title">{{ props.option.pretty_name }}</span></div>
               </template>
@@ -151,14 +160,23 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="product_option_type_ids">OPTION TYPES</label>
-            <multiselect v-model="product.option_types"
-                         id="product_option_type_ids" label="name" track-by="id"
-                         placeholder="Choosen an option type" open-direction="bottom"
-                         :options="optionTypeOption" :multiple="true" :searchable="true"
+            <multiselect v-model="product.option_type_ids"
+                         id="product_option_type_ids"
+                         label="name"
+                         track-by="id"
+                         placeholder="Choosen an option type"
+                         open-direction="bottom"
+                         :options="optionTypeOption"
+                         :multiple="true"
+                         :searchable="true"
                          :loading="isLoading"
-                         :internal-search="false" :clear-on-select="false" :close-on-select="false"
+                         :internal-search="false"
+                         :clear-on-select="false"
+                         :close-on-select="false"
                          :options-limit="300"
-                         :show-no-results="false" :hide-selected="true" @search-change="getOptionTypeOption">
+                         :show-no-results="false"
+                         :hide-selected="true"
+                         @search-change="getOptionTypeOption">
               <template slot="option" slot-scope="props">
                 <div class="option__desc"><span class="option__title">{{ props.option.name }}</span></div>
               </template>
@@ -174,7 +192,10 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="product_meta_keywords">META KEYWORDS</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.meta_keywords}" id="product_meta_keywords"
+            <input type="text"
+                   class="form-control"
+                   :class="{ 'is-invalid':errors.meta_keywords}"
+                   id="product_meta_keywords"
                    v-model="product['meta_keywords']">
             <div v-if="error && errors.meta_keywords" class="invalid-feedback">
               {{ errors.meta_keywords[0] }}
@@ -186,7 +207,10 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="product_meta_description">META DESCRIPTION</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.meta_description}" id="product_meta_description"
+            <input type="text"
+                   class="form-control"
+                   :class="{ 'is-invalid':errors.meta_description}"
+                   id="product_meta_description"
                    v-model="product['meta_description']">
             <div v-if="error && errors.meta_description" class="invalid-feedback">
               {{ errors.meta_description[0] }}
@@ -194,13 +218,19 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" @click="updateProduct">Update</button>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" @click="updateProduct">Update</button>
+        <span class="mx-2">Or</span>
+        <router-link :to="{ name: 'ProductIndex'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
+      </div>
     </div>
 </template>
 
 <script>
 import Datepicker from 'vuejs-datepicker'
 import Select2 from 'v-select2-component'
+import _ from 'lodash'
+import { productMixin } from '../../mixins/product'
 
 export default {
   name: 'product-detail',
@@ -216,14 +246,63 @@ export default {
       isLoading: false
     }
   },
+  mixins: [productMixin],
   methods: {
     updateProduct () {
-      console.log(this.product)
+      let product = {...this.product}
+      product.available_on = this.formatDate(product.available_on)
+      product.option_type_ids = _.map(product.option_type_ids, 'id').toString()
+      product.taxon_ids = _.map(product.taxon_ids, 'id').toString()
+      console.log(product)
+      let url = this.$hostServer + `/api/v1/products/${this.$route.params.product_id}?`
+      url = this.generateUrlToCreateAndUpdate(url, product)
+      this.axios.put(url).then((response) => {
+        this.error = false
+        this.errors = {}
+        if (typeof response.data !== 'undefined') {
+          this.$toasted.success('Create Product Successfully')
+          this.getProductDetail()
+        } else {
+          this.$toasted.error('Create Product Fail')
+        }
+      }).catch((e) => {
+        this.error = true
+        if (typeof e.response.data.errors !== 'undefined') {
+          this.errors = e.response.data.errors
+          this.error = true
+        }
+      })
+    },
+    getProductDetail () {
+      this.axios.get(this.$hostServer + '/api/v1/products/' + this.$route.params.product_id).then(response => {
+        let productResponse = response.data
+        this.setProduct(productResponse)
+        // console.log(productResponse)
+        this.$set(this.product, 'name', productResponse.name)
+        this.$set(this.product, 'slug', productResponse.slug)
+        this.$set(this.product, 'description', productResponse.description)
+        this.$set(this.product, 'price', productResponse.price)
+        this.$set(this.product, 'cost_price', productResponse.master.cost_price)
+        this.$set(this.product, 'available_on', productResponse.available_on)
+        this.$set(this.product, 'sku', productResponse.master.sku)
+        this.$set(this.product, 'weight', productResponse.master.weight)
+        this.$set(this.product, 'height', productResponse.master.height)
+        this.$set(this.product, 'width', productResponse.master.width)
+        this.$set(this.product, 'depth', productResponse.master.depth)
+        this.$set(this.product, 'shipping_category_id', productResponse.shipping_category_id)
+        this.$set(this.product, 'taxon_ids', this.getTaxonInClassifications(productResponse.classifications))
+        this.taxonsOption = this.getTaxonInClassifications(productResponse.classifications)
+        this.$set(this.product, 'option_type_ids', productResponse.option_types)
+        this.$set(this.product, 'meta_keywords', productResponse.meta_keywords)
+        this.$set(this.product, 'meta_description', productResponse.meta_description)
+      })
     },
     formatDate (date) {
       if (date) {
-        this.product.available_on = this.$moment(date).format('YYYY/MM/DD')
+        date = this.$moment(date).format('YYYY/MM/DD')
+        this.product.available_on = date
       }
+      return date
     },
     getTaxonsOption (query = '') {
       this.isLoading = true
@@ -253,28 +332,7 @@ export default {
   created () {
     this.getTaxonsOption()
     this.getOptionTypeOption()
-    this.axios.get(this.$hostServer + '/api/v1/products/' + this.$route.params.product_id).then(response => {
-      let productResponse = response.data
-      this.setProduct(productResponse)
-      // console.log(productResponse)
-      this.$set(this.product, 'name', productResponse.name)
-      this.$set(this.product, 'slug', productResponse.slug)
-      this.$set(this.product, 'description', productResponse.description)
-      this.$set(this.product, 'price', productResponse.price)
-      this.$set(this.product, 'cost_price', productResponse.master.cost_price)
-      this.$set(this.product, 'available_on', productResponse.available_on)
-      this.$set(this.product, 'sku', productResponse.master.sku)
-      this.$set(this.product, 'weight', productResponse.master.weight)
-      this.$set(this.product, 'height', productResponse.master.height)
-      this.$set(this.product, 'width', productResponse.master.width)
-      this.$set(this.product, 'depth', productResponse.master.depth)
-      this.$set(this.product, 'shipping_category_id', productResponse.shipping_category_id)
-      this.$set(this.product, 'taxons', this.getTaxonInClassifications(productResponse.classifications))
-      this.taxonsOption = this.getTaxonInClassifications(productResponse.classifications)
-      this.$set(this.product, 'option_types', productResponse.option_types)
-      this.$set(this.product, 'meta_keywords', productResponse.meta_keywords)
-      this.$set(this.product, 'meta_description', productResponse.meta_description)
-    })
+    this.getProductDetail()
   },
   components: {
     Datepicker,

@@ -14,7 +14,9 @@
     <div class="row">
       <div class="col-12">
         <p v-if="state === constants.DATA_NOT_FOUND">No data found.</p>
-        <p v-if="state === constants.LOADING">Loading ...</p>
+        <p v-if="state === constants.LOADING" class="d-flex justify-content-center align-items-center loading-product">
+          <spinner />
+        </p>
         <table class="table table-striped table-bordered table-hover" v-if="state === constants.LOADED_SUCCESS">
           <thead>
           <tr>
@@ -51,10 +53,9 @@
 
 <script>
 import ProductHeader from './Header'
-import productConstants from '../../constants/product'
+import productConstants from '../../constants/constants'
 import MiniNoImage from '../../assets/images/mini-no-image.png'
 import _ from 'lodash'
-
 export default {
   name: 'product.index',
   data () {
@@ -87,13 +88,11 @@ export default {
     fetchData () {
       this.axios.get(this.$hostServer + '/api/v1/products?q[s]=id%20desc').then((response) => {
         let data = response.data
-        if (typeof data !== 'undefined') {
+        if (typeof data !== 'undefined' && data.products.length > 0) {
           this.products = data.products
-          if (data.products.length > 0) {
-            this.state = this.constants.LOADED_SUCCESS
-          } else {
-            this.state = this.constants.DATA_NOT_FOUND
-          }
+          this.state = this.constants.LOADED_SUCCESS
+        } else {
+          this.state = this.constants.DATA_NOT_FOUND
         }
       }).catch((e) => {
         this.state = this.constants.DATA_NOT_FOUND
@@ -110,5 +109,7 @@ export default {
 </script>
 
 <style>
-
+  .loading-product {
+    height: 80vh;
+  }
 </style>
