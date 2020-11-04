@@ -5,7 +5,9 @@ import ProductAdd from '@/components/product/Add'
 import ProductEdit from '@/components/product/Edit'
 import ProductDetail from '@/components/product/Detail'
 import ImageIndex from '@/components/image/Index'
+import ImageList from '@/components/image/List'
 import ImageAdd from '@/components/image/Add'
+import ImageEdit from '@/components/image/Edit'
 import PropertyIndex from '@/components/property/Index'
 import StockIndex from '@/components/stock/Index'
 import VariantIndex from '@/components/variant/Index'
@@ -33,14 +35,23 @@ export default new Router({
           component: ProductDetail
         },
         {
-          path: 'image',
-          name: 'ImageIndex',
+          path: 'images',
           component: ImageIndex,
           children: [
             {
+              path: '',
+              name: 'ImageList',
+              component: ImageList
+            },
+            {
               path: 'new',
-              name: 'ImageNew',
+              name: 'ImageAdd',
               component: ImageAdd
+            },
+            {
+              path: ':image_id/edit',
+              name: 'ImageEdit',
+              component: ImageEdit
             }
           ]
         },

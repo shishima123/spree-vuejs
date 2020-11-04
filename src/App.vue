@@ -1,36 +1,20 @@
 <template>
   <div id="app">
-    <transition name="slide">
+    <slide-transition>
       <router-view/>
-    </transition>
+    </slide-transition>
   </div>
 </template>
 
 <script>
+import SlideTransition from './components/utils/slide-transition'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {SlideTransition}
 }
 </script>
 
 <style>
-  .slide-leave-active {
-    transition: opacity 0.5s ease;
-    opacity: 0;
-    animation: slide-out 0.5s ease-in-out forwards;
-  }
-
-  .slide-leave {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @keyframes slide-out {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(30px);
-    }
-  }
 
 </style>

@@ -255,7 +255,7 @@ export default {
       product.taxon_ids = _.map(product.taxon_ids, 'id').toString()
       console.log(product)
       let url = this.$hostServer + `/api/v1/products/${this.$route.params.product_id}?`
-      url = this.generateUrlToCreateAndUpdate(url, product)
+      url = this.generateUrlToCreateAndUpdate(url, product, 'product')
       this.axios.put(url).then((response) => {
         this.error = false
         this.errors = {}

@@ -7,12 +7,13 @@ export const productMixin = {
      * @returns {string} api url to create or update product
      * @param baseUrl
      * @param productObj
+     * @param type
      */
-    generateUrlToCreateAndUpdate (baseUrl, productObj) {
+    generateUrlToCreateAndUpdate (baseUrl, productObj, type) {
       Object.keys(productObj).forEach((key) => {
         let value = productObj[key]
         if (value !== null) {
-          baseUrl += `product[${key}]=${productObj[key]}&`
+          baseUrl += `${type}[${key}]=${productObj[key]}&`
         }
       })
       return baseUrl.slice(0, -1)

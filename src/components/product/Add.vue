@@ -92,7 +92,7 @@ export default {
   methods: {
     create () {
       let url = this.$hostServer + '/api/v1/products?'
-      url = this.generateUrlToCreateAndUpdate(url, this.product)
+      url = this.generateUrlToCreateAndUpdate(url, this.product, 'product')
       this.axios.post(url).then((response) => {
         this.error = false
         this.errors = {}

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-9">
+    <div class="col-12">
       <portal to="product-header-title">
         <div class="d-flex">
           <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
@@ -7,6 +7,33 @@
           <h3 class="text-center m-0">{{ product.name }} New Image</h3>
         </div>
       </portal>
+      <portal to="product-header-button" v-if="!usePortal">
+      </portal>
+      <form @submit.prevent="create">
+        <div class="form-group">
+          <label for="image">FILENAME</label>
+          <input type="file" class="form-control-file" id="image" @change="onImageChange">
+        </div>
+        <div class="form-group">
+          <label for="variant">VARIANT</label>
+          <multiselect v-model="image.viewable_id"
+                       id="variant"
+                       label="name"
+                       track-by="id"
+                       open-direction="bottom"
+                       :options="variantOptions"
+                       :searchable="true"
+                       :show-labels="false">
+          </multiselect>
+        </div>
+        <div class="form-group">
+          <label for="alt_text">ALTERNATIVE TEXT</label>
+          <textarea v-model="image.alt" type="text" class="form-control" id="alt_text"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Create</button>
+        <span class="mx-2">Or</span>
+        <router-link :to="{ name: 'ImageList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
+      </form>
     </div>
 </template>
 
@@ -15,19 +42,57 @@ export default {
   name: 'ImageIndex',
   data () {
     return {
-      images: []
+      image: {
+        attachment: '',
+        viewable_id: '',
+        alt: ''
+      },
+      initialValues: this.$route.params.product_id,
+      variantOptions: [{id: this.$route.params.product_id, name: 'ALL'}]
     }
   },
-  mounted () {
-    console.log(this.images.length < 1)
-    this.axios.get(this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/images`).then(response => {
-      if (typeof response.data !== 'undefined') {
-        console.log(response.data)
-        this.images = response.data.images
+  watch: {
+    initialValues: {
+      immediate: true,
+      handler (values) {
+        this.image.viewable_id = this.variantOptions.filter(x => values === x['id'])
       }
-    }).catch(e => {
-      console.log(e)
-    })
+    }
+  },
+  computed: {
+    product () {
+      return this.$store.state.product
+    },
+    usePortal () {
+      return this.$route.name === 'ImageAdd'
+    }
+  },
+  methods: {
+    onImageChange (e) {
+      let files = e.target.files || e.dataTransfer.files
+      if (!files.length) { return }
+      this.image.attachment = files[0]
+    },
+    create () {
+      let data = new FormData()
+      data.append('image[attachment]', this.image.attachment)
+      data.append('image[alt]', this.image.alt)
+      data.append('image[viewable_id]', this.image.viewable_id[0].id)
+      this.axios.post(this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/images`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => {
+        if (typeof response.data !== 'undefined') {
+          this.$toasted.success('Image has been successfully created!')
+          this.$router.push({name: 'ImageList'})
+        } else {
+          this.$toasted.error('Create Image Fail.')
+        }
+      }).catch(e => {
+        this.$toasted.error('Create Image Fail.')
+      })
+    }
   }
 }
 </script>
@@ -35,3 +100,4 @@ export default {
 <style scoped>
 
 </style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
