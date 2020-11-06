@@ -104,7 +104,7 @@ export default {
       .then(response => {
         if (typeof response.data !== 'undefined') {
           let image = response.data
-          let selectedOption = this.variantOptions.filter(x => image.viewable_id == x['id'])
+          let selectedOption = this.variantOptions.filter(x => image.viewable_id === x['id'])
           this.$set(this.image, 'viewable_id', selectedOption)
           this.$set(this.image, 'alt', image.alt)
           this.$set(this, 'img_url', image.product_url)

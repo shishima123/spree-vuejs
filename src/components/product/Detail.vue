@@ -253,7 +253,6 @@ export default {
       product.available_on = this.formatDate(product.available_on)
       product.option_type_ids = _.map(product.option_type_ids, 'id').toString()
       product.taxon_ids = _.map(product.taxon_ids, 'id').toString()
-      console.log(product)
       let url = this.$hostServer + `/api/v1/products/${this.$route.params.product_id}?`
       url = this.generateUrlToCreateAndUpdate(url, product, 'product')
       this.axios.put(url).then((response) => {
@@ -261,7 +260,7 @@ export default {
         this.errors = {}
         if (typeof response.data !== 'undefined') {
           this.$toasted.success('Create Product Successfully')
-          this.getProductDetail()
+          this.setProduct(response.data)
         } else {
           this.$toasted.error('Create Product Fail')
         }
@@ -277,24 +276,6 @@ export default {
       this.axios.get(this.$hostServer + '/api/v1/products/' + this.$route.params.product_id).then(response => {
         let productResponse = response.data
         this.setProduct(productResponse)
-        // console.log(productResponse)
-        this.$set(this.product, 'name', productResponse.name)
-        this.$set(this.product, 'slug', productResponse.slug)
-        this.$set(this.product, 'description', productResponse.description)
-        this.$set(this.product, 'price', productResponse.price)
-        this.$set(this.product, 'cost_price', productResponse.master.cost_price)
-        this.$set(this.product, 'available_on', productResponse.available_on)
-        this.$set(this.product, 'sku', productResponse.master.sku)
-        this.$set(this.product, 'weight', productResponse.master.weight)
-        this.$set(this.product, 'height', productResponse.master.height)
-        this.$set(this.product, 'width', productResponse.master.width)
-        this.$set(this.product, 'depth', productResponse.master.depth)
-        this.$set(this.product, 'shipping_category_id', productResponse.shipping_category_id)
-        this.$set(this.product, 'taxon_ids', this.getTaxonInClassifications(productResponse.classifications))
-        this.taxonsOption = this.getTaxonInClassifications(productResponse.classifications)
-        this.$set(this.product, 'option_type_ids', productResponse.option_types)
-        this.$set(this.product, 'meta_keywords', productResponse.meta_keywords)
-        this.$set(this.product, 'meta_description', productResponse.meta_description)
       })
     },
     formatDate (date) {
@@ -325,8 +306,29 @@ export default {
       })
       return rs
     },
-    setProduct (data) {
+    setStoreProduct (data) {
       this.$store.commit('setProduct', data)
+    },
+    setProduct (productResponse) {
+      this.setStoreProduct(productResponse)
+      // console.log(productResponse)
+      this.$set(this.product, 'name', productResponse.name)
+      this.$set(this.product, 'slug', productResponse.slug)
+      this.$set(this.product, 'description', productResponse.description)
+      this.$set(this.product, 'price', productResponse.price)
+      this.$set(this.product, 'cost_price', productResponse.master.cost_price)
+      this.$set(this.product, 'available_on', productResponse.available_on)
+      this.$set(this.product, 'sku', productResponse.master.sku)
+      this.$set(this.product, 'weight', productResponse.master.weight)
+      this.$set(this.product, 'height', productResponse.master.height)
+      this.$set(this.product, 'width', productResponse.master.width)
+      this.$set(this.product, 'depth', productResponse.master.depth)
+      this.$set(this.product, 'shipping_category_id', productResponse.shipping_category_id)
+      this.$set(this.product, 'taxon_ids', this.getTaxonInClassifications(productResponse.classifications))
+      this.taxonsOption = this.getTaxonInClassifications(productResponse.classifications)
+      this.$set(this.product, 'option_type_ids', productResponse.option_types)
+      this.$set(this.product, 'meta_keywords', productResponse.meta_keywords)
+      this.$set(this.product, 'meta_description', productResponse.meta_description)
     }
   },
   created () {

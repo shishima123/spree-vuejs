@@ -11,6 +11,8 @@ import ImageEdit from '@/components/image/Edit'
 import PropertyIndex from '@/components/property/Index'
 import StockIndex from '@/components/stock/Index'
 import VariantIndex from '@/components/variant/Index'
+import VariantList from '@/components/variant/List'
+import VariantAdd from '@/components/variant/Add'
 Vue.use(Router)
 
 export default new Router({
@@ -67,8 +69,18 @@ export default new Router({
         },
         {
           path: 'variant',
-          name: 'VariantIndex',
-          component: VariantIndex
+          component: VariantIndex,
+          children: [
+            {
+              path: '',
+              name: 'VariantList',
+              component: VariantList
+            }, {
+              path: 'new',
+              name: 'VariantNew',
+              component: VariantAdd
+            }
+          ]
         }
       ]
     }
