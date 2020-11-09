@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'bootstrap'
@@ -13,9 +12,9 @@ import Toasted from 'vue-toasted'
 import { store } from './store/store'
 import Multiselect from 'vue-multiselect'
 import Spinner from './components/utils/spinner'
-
+import { sync } from 'vuex-router-sync'
 import PortalVue from 'portal-vue'
-Vue.use(PortalVue)
+
 Vue.component('multiselect', Multiselect)
 Vue.component('spinner', Spinner)
 
@@ -32,6 +31,7 @@ Vue.use(Toasted, options)
 // Vue.use(require('vue-moment'))
 Vue.use(VueAxios, axios)
 Vue.use(VueMoment)
+Vue.use(PortalVue)
 
 Vue.config.productionTip = false
 
@@ -39,6 +39,8 @@ Vue.prototype.$hostServer = 'http://localhost:3000'
 
 axios.defaults.headers.common['X-Spree-Token'] = '894fa3111b5a8c4ff8778f2e20f067a367b665918a6eac28'
 axios.defaults.headers.common['Access-Control-Allow-origin'] = '*'
+
+sync(store, router)
 
 /* eslint-disable no-new */
 new Vue({

@@ -84,6 +84,7 @@ export default {
   },
   created () {
     this.fetchData()
+    this.$store.dispatch('fetchProduct')
   }
 }
 </script>

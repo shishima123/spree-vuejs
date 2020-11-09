@@ -77,7 +77,7 @@ export default new Router({
               component: VariantList
             }, {
               path: 'new',
-              name: 'VariantNew',
+              name: 'VariantAdd',
               component: VariantAdd
             }
           ]
