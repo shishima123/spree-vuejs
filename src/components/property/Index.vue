@@ -1,12 +1,17 @@
 <template>
-  <div class="col-9 row">
-      Property
-    </div>
+  <div class="col-9">
+    <slide-transition>
+      <router-view></router-view>
+    </slide-transition>
+  </div>
 </template>
 
 <script>
+import SlideTransition from '../utils/slide-transition'
+
 export default {
-  name: 'PropertyIndex'
+  name: 'PropertyIndex',
+  components: {SlideTransition}
 }
 </script>
 

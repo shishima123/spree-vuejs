@@ -23,7 +23,7 @@
             <router-link :to="{name: 'ProductDetail'}" class="list-group-item list-group-item-action" active-class="active" exact><i class="fa fa-pencil mr-1" aria-hidden="true"></i>Details</router-link>
             <router-link :to="{name: 'ImageList'}" class="list-group-item list-group-item-action" active-class="active"><i class="fa fa-file-image-o mr-1" aria-hidden="true"></i>Images</router-link>
             <router-link :to="{name: 'VariantList'}" class="list-group-item list-group-item-action" active-class="active"><i class="fa fa-th-large mr-1" aria-hidden="true"></i>Variants</router-link>
-            <router-link :to="{name: 'PropertyIndex'}" class="list-group-item list-group-item-action" active-class="active"><i class="fa fa-list-alt mr-1" aria-hidden="true"></i>Properties</router-link>
+            <router-link :to="{name: 'PropertyList'}" class="list-group-item list-group-item-action" active-class="active"><i class="fa fa-list-alt mr-1" aria-hidden="true"></i>Properties</router-link>
           </div>
         </div>
       </div>

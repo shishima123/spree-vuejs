@@ -4,11 +4,20 @@ import ProductIndex from '@/components/product/Index'
 import ProductAdd from '@/components/product/Add'
 import ProductEdit from '@/components/product/Edit'
 import ProductDetail from '@/components/product/Detail'
+
+// Image
 import ImageIndex from '@/components/image/Index'
 import ImageList from '@/components/image/List'
 import ImageAdd from '@/components/image/Add'
 import ImageEdit from '@/components/image/Edit'
+
+// Property
 import PropertyIndex from '@/components/property/Index'
+import PropertyList from '@/components/property/List'
+import PropertyAdd from '@/components/property/Add'
+import PropertyEdit from '@/components/property/Edit'
+
+// Variant
 import VariantIndex from '@/components/variant/Index'
 import VariantList from '@/components/variant/List'
 import VariantAdd from '@/components/variant/Add'
@@ -59,8 +68,19 @@ export default new Router({
         },
         {
           path: 'property',
-          name: 'PropertyIndex',
-          component: PropertyIndex
+          component: PropertyIndex,
+          children: [
+            {
+              path: '',
+              name: 'PropertyList',
+              component: PropertyList
+            },
+            {
+              path: 'add',
+              name: 'PropertyAdd',
+              component: PropertyAdd
+            }
+          ]
         },
         {
           path: 'variant',
