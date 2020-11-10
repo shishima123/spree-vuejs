@@ -14,6 +14,9 @@
           No Variants found -
           <a href="#" @click.prevent="toggleNewVariant">Add One!</a>
         </div>
+        <p v-if="state === constants.LOADING" class="d-flex justify-content-center align-items-center loading-product">
+          <spinner />
+        </p>
         <table class="table table-striped table-bordered table-hover" v-if="state === constants.LOADED_SUCCESS">
           <thead>
           <tr>
@@ -29,7 +32,7 @@
             <td class="text-center">${{ variant.price }}</td>
             <td class="text-center">{{ variant.sku }}</td>
             <td class="text-center">
-              <router-link :to="{ name:'ImageEdit', params: {image_id: variant.id}}" class="btn btn-primary mr-3"
+              <router-link :to="{ name:'VariantEdit', params: {variant_id: variant.id}}" class="btn btn-primary mr-3"
                            data-toggle="tooltip" data-placement="bot" title="Edit">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </router-link>

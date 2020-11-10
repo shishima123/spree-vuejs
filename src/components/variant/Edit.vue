@@ -93,7 +93,7 @@
           <div class="col-12 d-flex align-items-center">
             <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Create</button>
             <span class="mx-2">Or</span>
-            <button type="button" class="btn btn-outline-dark" @click="toggleNewVariant"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</button>
+            <router-link :to="{name: 'VariantList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
           </div>
         </div>
       </form>
@@ -108,7 +108,7 @@ import Select2 from 'v-select2-component'
 import { productMixin } from '../../mixins/product'
 
 export default {
-  name: 'VariantAdd',
+  name: 'VariantEdit',
   data () {
     return {
       variant: {
@@ -118,8 +118,7 @@ export default {
         weight: '',
         height: '',
         width: '',
-        depth: '',
-        tax_category_id: 0
+        depth: ''
       },
       sizeSelected: '',
       colorSelected: '',
@@ -139,15 +138,15 @@ export default {
     create () {
       let size = this.sizeSelected !== '' ? `&variant[option_value_ids][]=${this.sizeSelected.id}` : ''
       let color = this.colorSelected !== '' ? `&variant[option_value_ids][]=${this.colorSelected.id}` : ''
-      let url = this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/variants?`
+      let url = this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/variants/${this.$route.params.variant_id}?`
       url = this.generateUrlToCreateAndUpdate(url, this.variant, 'variant')
       url = url + size + color
-      this.axios.post(url).then((response) => {
+      this.axios.put(url).then((response) => {
         this.error = false
         this.errors = {}
         if (typeof response.data !== 'undefined') {
           this.$toasted.success('Create Variant Successfully')
-          this.$emit('fetch:data')
+          this.$router.push({name: 'VariantList'})
         } else {
           this.$toasted.error('Create Variant Fail')
         }
@@ -156,8 +155,17 @@ export default {
         this.$toasted.error("Option Value can't be blank")
       })
     },
-    toggleNewVariant () {
-      this.$emit('toggle:new:variant')
+    setDataVariant (variant) {
+      this.variant.sku = variant.sku
+      this.variant.price = variant.price
+      this.variant.cost_price = variant.cost_price
+      this.variant.weight = variant.weight
+      this.variant.height = variant.height
+      this.variant.width = variant.width
+      this.variant.depth = variant.depth
+
+      this.sizeSelected = variant.option_values.filter(e => e.option_type_presentation === 'Size')[0]
+      this.colorSelected = variant.option_values.filter(e => e.option_type_presentation === 'Color')[0]
     }
   },
   mounted () {
@@ -167,12 +175,13 @@ export default {
         this.colorOptions = response.data.filter(e => e.option_type_presentation === 'Color')
       }
     })
-    this.variant.price = this.$store.getters.variantData.price
-    this.variant.cost_price = this.$store.getters.variantData.cost_price
-    this.variant.weight = this.$store.getters.variantData.weight
-    this.variant.height = this.$store.getters.variantData.height
-    this.variant.width = this.$store.getters.variantData.width
-    this.variant.depth = this.$store.getters.variantData.depth
+    this.axios.get(this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/variants/${this.$route.params.variant_id}`)
+      .then(response => {
+        if (typeof response.data !== 'undefined') {
+          let variant = response.data
+          this.setDataVariant(variant)
+        }
+      })
   },
   components: {
     Datepicker,

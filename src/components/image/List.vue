@@ -10,6 +10,9 @@
         <div v-if="state === constants.DATA_NOT_FOUND" class="alert alert-warning" role="alert">
           No Image found.
         </div>
+        <p v-if="state === constants.LOADING" class="d-flex justify-content-center align-items-center loading-product">
+          <spinner />
+        </p>
         <table class="table table-striped table-bordered table-hover" v-if="state === constants.LOADED_SUCCESS">
           <thead>
           <tr>
