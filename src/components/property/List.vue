@@ -21,13 +21,13 @@
             </thead>
             <tbody>
             <tr v-for="(product_property) in product_properties" :key="product_property.id">
+              <td class="text-center">{{ product_property.property_name }}</td>
+              <td class="text-center">{{ product_property.value }}</td>
               <td class="text-center">
-                <input type="text" class="form-control" :value="product_property.property_name">
-              </td>
-              <td class="text-center">
-                <input type="text" class="form-control" :value="product_property.value">
-              </td>
-              <td class="text-center">
+                <router-link :to="{ name:'PropertyEdit', params: {property_id: product_property.id}}" class="btn btn-primary mr-3"
+                             data-toggle="tooltip" data-placement="bot" title="Edit">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </router-link>
                 <button v-if="product_property.id !== undefined" @click="deleteProductProperty(product_property.id)" class="btn btn-danger" data-toggle="tooltip"
                         data-placement="top" title="Remove">
                   <i class="fa fa-trash" aria-hidden="true"></i>
@@ -36,9 +36,6 @@
             </tr>
             </tbody>
           </table>
-          <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Create</button>
-          <span class="mx-2">Or</span>
-          <router-link :to="{name: 'ProductIndex'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
         </form>
       </div>
     </div>
@@ -47,6 +44,7 @@
 
 <script>
 import Loading from '../../constants/constants'
+import {productMixin} from '../../mixins/product'
 export default {
   name: 'PropertyList',
   data () {
@@ -57,11 +55,7 @@ export default {
       constants: Loading
     }
   },
-  computed: {
-    product () {
-      return this.$store.state.product
-    }
-  },
+  mixins: [productMixin],
   methods: {
     deleteProductProperty (productPropertyId) {
       this.axios.delete(this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/product_properties/${productPropertyId}`).then((response) => {
@@ -84,7 +78,6 @@ export default {
   },
   created () {
     this.fetchData()
-    this.$store.dispatch('fetchProduct')
   }
 }
 </script>

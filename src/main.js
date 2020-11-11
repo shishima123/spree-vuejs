@@ -28,7 +28,6 @@ let options = {
 // you can also pass options, check options reference below
 Vue.use(Toasted, options)
 
-// Vue.use(require('vue-moment'))
 Vue.use(VueAxios, axios)
 Vue.use(VueMoment)
 Vue.use(PortalVue)
@@ -38,7 +37,6 @@ Vue.config.productionTip = false
 Vue.prototype.$hostServer = 'http://localhost:3000'
 
 axios.defaults.headers.common['X-Spree-Token'] = '894fa3111b5a8c4ff8778f2e20f067a367b665918a6eac28'
-axios.defaults.headers.common['Access-Control-Allow-origin'] = '*'
 
 sync(store, router)
 

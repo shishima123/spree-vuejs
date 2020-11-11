@@ -4,7 +4,7 @@
       <div class="d-flex">
         <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
         <h3>&nbsp;/&nbsp;</h3>
-        <h3 class="text-center m-0">{{ product.name }}</h3>
+        <h3 class="text-center m-0">{{ storeProduct.name }}</h3>
       </div>
     </portal>
     <portal to="product-header-button">
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import {productMixin} from '../../mixins/product'
 export default {
   name: 'Edit',
   data () {
@@ -65,6 +66,7 @@ export default {
       variantOptions: [{id: this.$route.params.product_id, name: 'ALL'}]
     }
   },
+  mixins: [productMixin],
   methods: {
     onImageChange (e) {
       let files = e.target.files || e.dataTransfer.files
@@ -92,11 +94,6 @@ export default {
       }).catch(e => {
         this.$toasted.error('Update Image Fail.')
       })
-    }
-  },
-  computed: {
-    product () {
-      return this.$store.state.product
     }
   },
   mounted () {

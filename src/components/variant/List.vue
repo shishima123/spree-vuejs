@@ -53,6 +53,7 @@
 import Loading from '../../constants/constants'
 import VariantAdd from './Add'
 import SlideTransition from '../utils/slide-transition'
+import {productMixin} from '../../mixins/product'
 export default {
   name: 'VariantList',
   data () {
@@ -64,11 +65,7 @@ export default {
       isNewVariant: false
     }
   },
-  computed: {
-    product () {
-      return this.$store.state.product
-    }
-  },
+  mixins: [productMixin],
   methods: {
     deleteVariant (variantId) {
       this.axios.delete(this.$hostServer + `/api/v1/products/${this.$route.params.product_id}/variants/${variantId}`).then((response) => {
@@ -102,7 +99,6 @@ export default {
   },
   created () {
     this.fetchData()
-    this.$store.dispatch('fetchProduct')
   },
   components: {
     VariantAdd,

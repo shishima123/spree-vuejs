@@ -4,7 +4,7 @@
         <div class="d-flex">
           <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
           <h3>&nbsp;/&nbsp;</h3>
-          <h3 class="text-center m-0">{{ product.name }} New Image</h3>
+          <h3 class="text-center m-0">{{ storeProduct.name }} New Image</h3>
         </div>
       </portal>
       <portal to="product-header-button" v-if="!usePortal">
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { productMixin } from '../../mixins/product'
+
 export default {
   name: 'ImageIndex',
   data () {
@@ -51,6 +53,7 @@ export default {
       variantOptions: [{id: this.$route.params.product_id, name: 'ALL'}]
     }
   },
+  mixins: [productMixin],
   watch: {
     initialValues: {
       immediate: true,
@@ -60,9 +63,6 @@ export default {
     }
   },
   computed: {
-    product () {
-      return this.$store.state.product
-    },
     usePortal () {
       return this.$route.name === 'ImageAdd'
     }

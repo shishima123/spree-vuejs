@@ -1,227 +1,229 @@
 <template>
-    <div class="col-9 row">
-      <div class="col-9">
-        <div class="form-group">
-          <label for="product_name">NAME *</label>
-          <input type="text" class="form-control" :class="{ 'is-invalid':errors.name}" id="product_name" v-model="product['name']"
-                 required>
-          <div v-if="error && errors.name" class="invalid-feedback">
-            {{ errors.name[0] }}
+    <div class="col-9">
+      <div class="row">
+        <div class="col-9">
+          <div class="form-group">
+            <label for="product_name">NAME *</label>
+            <input type="text" class="form-control" :class="{ 'is-invalid':errors.name}" id="product_name" v-model="product['name']"
+                   required>
+            <div v-if="error && errors.name" class="invalid-feedback">
+              {{ errors.name[0] }}
+            </div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-12">
-            <label for="product_slug">SLUG *</label>
-            <input type="text" :class="{ 'is-invalid':errors.slug}" class="form-control" id="product_slug" v-model="product['slug']">
-            <div v-if="error && errors.slug" class="invalid-feedback">
-              {{ errors.slug[0] }}
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="product_slug">SLUG *</label>
+              <input type="text" :class="{ 'is-invalid':errors.slug}" class="form-control" id="product_slug" v-model="product['slug']">
+              <div v-if="error && errors.slug" class="invalid-feedback">
+                {{ errors.slug[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="product_description">DESCRIPTION *</label>
+              <textarea type="text" rows="20" :class="{ 'is-invalid':errors.description}" class="form-control" id="product_description"
+                        v-model="product['description']"></textarea>
+              <div v-if="error && errors.description" class="invalid-feedback">
+                {{ errors.description[0] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-12">
-            <label for="product_description">DESCRIPTION *</label>
-            <textarea type="text" rows="20" :class="{ 'is-invalid':errors.description}" class="form-control" id="product_description"
-                      v-model="product['description']"></textarea>
-            <div v-if="error && errors.description" class="invalid-feedback">
-              {{ errors.description[0] }}
+        <div class="col-3">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_price">MASTER PRICE *</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_price"
+                     v-model="product['price']" required>
+              <div v-if="error && errors.price" class="invalid-feedback">
+                {{ errors.price[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_cost_price">COST PRICE</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_cost_price"
+                     v-model="product['cost_price']">
+              <div v-if="error && errors.cost_price" class="invalid-feedback">
+                {{ errors.cost_price[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_cost_currency">COST CURRENCY</label>
+              <input type="text" class="form-control" id="product_cost_currency"
+                     value="USD">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>AVAILABLE ON</label>
+              <datepicker @selected="formatDate" :class="{ 'is-invalid':errors.available_on}" v-model="product['available_on']" format="yyyy/MM/dd" :bootstrap-styling="true" :readonly="false"></datepicker>
+              <div v-if="error && errors.available_on" class="invalid-feedback">
+                {{ errors.available_on[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_sku">MASTER SKU</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_sku"
+                     v-model="product['sku']">
+              <div v-if="error && errors.sku" class="invalid-feedback">
+                {{ errors.sku[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="product_weight">WEIGHT</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.weight}" id="product_weight"
+                     v-model="product['weight']">
+              <div v-if="error && errors.weight" class="invalid-feedback">
+                {{ errors.weight[0] }}
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_height">HEIGHT</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.height}" id="product_height"
+                     v-model="product['height']">
+              <div v-if="error && errors.height" class="invalid-feedback">
+                {{ errors.height[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="product_width">WIDTH</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.width}" id="product_width"
+                     v-model="product['width']">
+              <div v-if="error && errors.width" class="invalid-feedback">
+                {{ errors.width[0] }}
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_depth">DEPTH</label>
+              <input type="text" class="form-control" :class="{ 'is-invalid':errors.depth}" id="product_depth"
+                     v-model="product['depth']">
+              <div v-if="error && errors.depth" class="invalid-feedback">
+                {{ errors.depth[0] }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_shipping_category_id">SHIPPING CATEGORY</label>
+              <Select2 id="product_shipping_category_id" :class="{ 'is-invalid':errors.shipping_category}"
+                       v-model="product['shipping_category_id']" :settings="{ theme: 'bootstrap4' }"
+                       :options="shippingCategoryOption"/>
+              <div v-if="error && errors.shipping_category" class="invalid-feedback">
+                {{ errors.shipping_category[0] }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-3">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_price">MASTER PRICE *</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_price"
-                   v-model="product['price']" required>
-            <div v-if="error && errors.price" class="invalid-feedback">
-              {{ errors.price[0] }}
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_taxon_ids">TAXONS</label>
+              <multiselect v-model="product.taxon_ids"
+                           id="product_taxon_ids"
+                           label="pretty_name"
+                           track-by="id"
+                           placeholder="Add a Taxon"
+                           open-direction="bottom"
+                           :options="taxonsOption"
+                           :multiple="true"
+                           :searchable="true"
+                           :loading="isLoading"
+                           :internal-search="false"
+                           :clear-on-select="false"
+                           :close-on-select="false"
+                           :options-limit="300"
+                           :show-no-results="false"
+                           :hide-selected="true"
+                           @search-change="getTaxonsOption">
+                <template slot="option" slot-scope="props">
+                  <div class="option__desc"><span class="option__title">{{ props.option.pretty_name }}</span></div>
+                </template>
+                <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+              </multiselect>
+              <div v-if="error && errors.taxon_ids" class="invalid-feedback">
+                {{ errors.taxon_ids[0] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_cost_price">COST PRICE</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_cost_price"
-                   v-model="product['cost_price']">
-            <div v-if="error && errors.cost_price" class="invalid-feedback">
-              {{ errors.cost_price[0] }}
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_option_type_ids">OPTION TYPES</label>
+              <multiselect v-model="product.option_type_ids"
+                           id="product_option_type_ids"
+                           label="name"
+                           track-by="id"
+                           placeholder="Choosen an option type"
+                           open-direction="bottom"
+                           :options="optionTypeOption"
+                           :multiple="true"
+                           :searchable="true"
+                           :loading="isLoading"
+                           :internal-search="false"
+                           :clear-on-select="false"
+                           :close-on-select="false"
+                           :options-limit="300"
+                           :show-no-results="false"
+                           :hide-selected="true"
+                           @search-change="getOptionTypeOption">
+                <template slot="option" slot-scope="props">
+                  <div class="option__desc"><span class="option__title">{{ props.option.name }}</span></div>
+                </template>
+                <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+              </multiselect>
+              <div v-if="error && errors.option_type_ids" class="invalid-feedback">
+                {{ errors.option_type_ids[0] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_cost_currency">COST CURRENCY</label>
-            <input type="text" class="form-control" id="product_cost_currency"
-                   value="USD">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>AVAILABLE ON</label>
-            <datepicker @selected="formatDate" :class="{ 'is-invalid':errors.available_on}" v-model="product['available_on']" format="yyyy/MM/dd" :bootstrap-styling="true" :readonly="false"></datepicker>
-            <div v-if="error && errors.available_on" class="invalid-feedback">
-              {{ errors.available_on[0] }}
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_meta_keywords">META KEYWORDS</label>
+              <input type="text"
+                     class="form-control"
+                     :class="{ 'is-invalid':errors.meta_keywords}"
+                     id="product_meta_keywords"
+                     v-model="product['meta_keywords']">
+              <div v-if="error && errors.meta_keywords" class="invalid-feedback">
+                {{ errors.meta_keywords[0] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_sku">MASTER SKU</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.price}" id="product_sku"
-                   v-model="product['sku']">
-            <div v-if="error && errors.sku" class="invalid-feedback">
-              {{ errors.sku[0] }}
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="product_meta_description">META DESCRIPTION</label>
+              <input type="text"
+                     class="form-control"
+                     :class="{ 'is-invalid':errors.meta_description}"
+                     id="product_meta_description"
+                     v-model="product['meta_description']">
+              <div v-if="error && errors.meta_description" class="invalid-feedback">
+                {{ errors.meta_description[0] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="product_weight">WEIGHT</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.weight}" id="product_weight"
-                   v-model="product['weight']">
-            <div v-if="error && errors.weight" class="invalid-feedback">
-              {{ errors.weight[0] }}
-            </div>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="product_height">HEIGHT</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.height}" id="product_height"
-                   v-model="product['height']">
-            <div v-if="error && errors.height" class="invalid-feedback">
-              {{ errors.height[0] }}
-            </div>
-          </div>
+        <div class="col-12 mb-5">
+          <button class="btn btn-primary" @click="updateProduct">Update</button>
+          <span class="mx-2">Or</span>
+          <router-link :to="{ name: 'ProductIndex'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="product_width">WIDTH</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.width}" id="product_width"
-                   v-model="product['width']">
-            <div v-if="error && errors.width" class="invalid-feedback">
-              {{ errors.width[0] }}
-            </div>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="product_depth">DEPTH</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid':errors.depth}" id="product_depth"
-                   v-model="product['depth']">
-            <div v-if="error && errors.depth" class="invalid-feedback">
-              {{ errors.depth[0] }}
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_shipping_category_id">SHIPPING CATEGORY</label>
-            <Select2 id="product_shipping_category_id" :class="{ 'is-invalid':errors.shipping_category}"
-                     v-model="product['shipping_category_id']" :settings="{ theme: 'bootstrap4' }"
-                     :options="shippingCategoryOption"/>
-            <div v-if="error && errors.shipping_category" class="invalid-feedback">
-              {{ errors.shipping_category[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_taxon_ids">TAXONS</label>
-            <multiselect v-model="product.taxon_ids"
-                         id="product_taxon_ids"
-                         label="pretty_name"
-                         track-by="id"
-                         placeholder="Add a Taxon"
-                         open-direction="bottom"
-                         :options="taxonsOption"
-                         :multiple="true"
-                         :searchable="true"
-                         :loading="isLoading"
-                         :internal-search="false"
-                         :clear-on-select="false"
-                         :close-on-select="false"
-                         :options-limit="300"
-                         :show-no-results="false"
-                         :hide-selected="true"
-                         @search-change="getTaxonsOption">
-              <template slot="option" slot-scope="props">
-                <div class="option__desc"><span class="option__title">{{ props.option.pretty_name }}</span></div>
-              </template>
-              <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-            </multiselect>
-            <div v-if="error && errors.taxon_ids" class="invalid-feedback">
-              {{ errors.taxon_ids[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_option_type_ids">OPTION TYPES</label>
-            <multiselect v-model="product.option_type_ids"
-                         id="product_option_type_ids"
-                         label="name"
-                         track-by="id"
-                         placeholder="Choosen an option type"
-                         open-direction="bottom"
-                         :options="optionTypeOption"
-                         :multiple="true"
-                         :searchable="true"
-                         :loading="isLoading"
-                         :internal-search="false"
-                         :clear-on-select="false"
-                         :close-on-select="false"
-                         :options-limit="300"
-                         :show-no-results="false"
-                         :hide-selected="true"
-                         @search-change="getOptionTypeOption">
-              <template slot="option" slot-scope="props">
-                <div class="option__desc"><span class="option__title">{{ props.option.name }}</span></div>
-              </template>
-              <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-            </multiselect>
-            <div v-if="error && errors.option_type_ids" class="invalid-feedback">
-              {{ errors.option_type_ids[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_meta_keywords">META KEYWORDS</label>
-            <input type="text"
-                   class="form-control"
-                   :class="{ 'is-invalid':errors.meta_keywords}"
-                   id="product_meta_keywords"
-                   v-model="product['meta_keywords']">
-            <div v-if="error && errors.meta_keywords" class="invalid-feedback">
-              {{ errors.meta_keywords[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="product_meta_description">META DESCRIPTION</label>
-            <input type="text"
-                   class="form-control"
-                   :class="{ 'is-invalid':errors.meta_description}"
-                   id="product_meta_description"
-                   v-model="product['meta_description']">
-            <div v-if="error && errors.meta_description" class="invalid-feedback">
-              {{ errors.meta_description[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 mb-5">
-        <button class="btn btn-primary" @click="updateProduct">Update</button>
-        <span class="mx-2">Or</span>
-        <router-link :to="{ name: 'ProductIndex'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
       </div>
     </div>
 </template>
@@ -306,12 +308,7 @@ export default {
       })
       return rs
     },
-    setStoreProduct (data) {
-      this.$store.commit('setProduct', data)
-    },
     setProduct (productResponse) {
-      this.setStoreProduct(productResponse)
-      // console.log(productResponse)
       this.$set(this.product, 'name', productResponse.name)
       this.$set(this.product, 'slug', productResponse.slug)
       this.$set(this.product, 'description', productResponse.description)

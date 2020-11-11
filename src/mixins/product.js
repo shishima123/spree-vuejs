@@ -1,4 +1,9 @@
 export const productMixin = {
+  computed: {
+    storeProduct () {
+      return this.$store.state.product.product
+    }
+  },
   methods: {
     /**
      * Method used to generate api url to create or update product

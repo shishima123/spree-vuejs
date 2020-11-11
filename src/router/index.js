@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { store } from '../store/store'
+
 import ProductIndex from '@/components/product/Index'
 import ProductAdd from '@/components/product/Add'
 import ProductEdit from '@/components/product/Edit'
@@ -24,7 +26,7 @@ import VariantAdd from '@/components/variant/Add'
 import VariantEdit from '@/components/variant/Edit'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -39,6 +41,7 @@ export default new Router({
     {
       path: '/edit/:product_id',
       component: ProductEdit,
+      meta: { fetchProduct: true },
       children: [
         {
           path: '',
@@ -79,6 +82,11 @@ export default new Router({
               path: 'add',
               name: 'PropertyAdd',
               component: PropertyAdd
+            },
+            {
+              path: ':property_id/edit',
+              name: 'PropertyEdit',
+              component: PropertyEdit
             }
           ]
         },
@@ -106,3 +114,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // fetch current product for breadcrumb
+  if (to.matched.some(m => m.meta.fetchProduct)) {
+    store.dispatch('product/fetchProduct', to.params)
+  }
+  next()
+})
+
+export default router

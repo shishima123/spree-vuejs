@@ -130,11 +130,6 @@ export default {
     }
   },
   mixins: [productMixin],
-  computed: {
-    product () {
-      return this.$store.state.product
-    }
-  },
   methods: {
     create () {
       let size = this.sizeSelected !== '' ? `&variant[option_value_ids][]=${this.sizeSelected.id}` : ''

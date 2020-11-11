@@ -5,7 +5,7 @@
         <div class="d-flex">
           <router-link tag="h3" class="text-primary" :to="{name:'ProductIndex'}"><a>Product</a></router-link>
           <h3>&nbsp;/&nbsp;</h3>
-          <h3 class="text-center m-0">{{ product.name }}</h3>
+          <h3 class="text-center m-0">{{ storeProduct.name }}</h3>
         </div>
       </portal>
       <portal to="product-header-button" v-if="usePortal">
@@ -34,13 +34,11 @@
 <script>
 import ProductHeader from './Header'
 import SlideTransition from '../utils/slide-transition'
-
+import {productMixin} from '../../mixins/product'
 export default {
   name: 'product.edit',
+  mixins: [productMixin],
   computed: {
-    product () {
-      return this.$store.state.product
-    },
     usePortal () {
       return this.$route.name === 'ProductDetail'
     }

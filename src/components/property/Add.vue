@@ -40,7 +40,7 @@
 import { productMixin } from '../../mixins/product'
 
 export default {
-  name: 'VariantAdd',
+  name: 'PropertyAdd',
   data () {
     return {
       property: {
@@ -52,11 +52,6 @@ export default {
     }
   },
   mixins: [productMixin],
-  computed: {
-    product () {
-      return this.$store.state.product
-    }
-  },
   methods: {
     create () {
       let property = { ...this.property }
@@ -67,6 +62,7 @@ export default {
         this.errors = {}
         if (typeof response.data !== 'undefined') {
           this.$toasted.success('Create Product Property Successfully')
+          this.$router.push({name: 'PropertyList'})
         } else {
           this.$toasted.error('Create Product Property Fail')
         }
@@ -78,14 +74,6 @@ export default {
         }
       })
     }
-  },
-  mounted () {
-    this.axios.get(this.$hostServer + `/api/v1/option_values`).then(response => {
-      if (typeof response.data !== 'undefined') {
-        this.sizeOptions = response.data.filter(e => e.option_type_presentation === 'Size')
-        this.colorOptions = response.data.filter(e => e.option_type_presentation === 'Color')
-      }
-    })
   }
 }
 </script>
