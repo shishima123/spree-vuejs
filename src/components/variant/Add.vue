@@ -162,12 +162,13 @@ export default {
         this.colorOptions = response.data.filter(e => e.option_type_presentation === 'Color')
       }
     })
-    this.variant.price = this.$store.getters.variantData.price
-    this.variant.cost_price = this.$store.getters.variantData.cost_price
-    this.variant.weight = this.$store.getters.variantData.weight
-    this.variant.height = this.$store.getters.variantData.height
-    this.variant.width = this.$store.getters.variantData.width
-    this.variant.depth = this.$store.getters.variantData.depth
+    let productGetter = this.$store.getters['product/variantData']
+    this.variant.price = productGetter.price
+    this.variant.cost_price = productGetter.cost_price
+    this.variant.weight = productGetter.weight
+    this.variant.height = productGetter.height
+    this.variant.width = productGetter.width
+    this.variant.depth = productGetter.depth
   },
   components: {
     Datepicker,
