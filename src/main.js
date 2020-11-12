@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './plugins/vue-router'
-import { store } from './store/store'
+import store from './store/store'
 
 // plugins
 import './plugins/bootstrap.js'
