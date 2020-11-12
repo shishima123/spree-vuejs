@@ -36,7 +36,7 @@
                            data-toggle="tooltip" data-placement="bot" title="Edit">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </router-link>
-              <button @click="deleteVariant(variant.id)" class="btn btn-danger" data-toggle="tooltip"
+              <button type="button" @click="deleteVariant(variant.id)" class="btn btn-danger" data-toggle="tooltip"
                       data-placement="top" title="Remove">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>

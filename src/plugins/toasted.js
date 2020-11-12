@@ -3,7 +3,7 @@ import Toasted from 'vue-toasted'
 
 let options = {
   theme: 'toasted-primary',
-  position: 'top-right',
+  position: 'bottom-right',
   duration: 3000,
   singleton: true
 }
