@@ -10,8 +10,9 @@
     <portal to="product-header-button">
       <div></div>
     </portal>
-    <form @submit.prevent="update" class="p-3 border">
-      <div class="row">
+    <form @submit.prevent="update">
+      <div class="row border p-3">
+        <div class="col-12 border-bottom h5 font-weight-bold pb-2">Edit Image</div>
         <div class="col-md-4 d-flex justify-content-center">
           <div class="form-group text-center">
             <label>THUMBNAIL</label>
@@ -44,11 +45,12 @@
             <textarea v-model="image.alt" type="text" class="form-control" id="alt_text" rows="4"></textarea>
           </div>
         </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Update</button>
+          <span class="mx-2">Or</span>
+          <router-link :to="{ name: 'ImageList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
+        </div>
       </div>
-
-      <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Update</button>
-      <span class="mx-2">Or</span>
-      <router-link :to="{ name: 'ImageList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
     </form>
   </div>
 </template>

@@ -10,29 +10,36 @@
       <portal to="product-header-button" v-if="!usePortal">
       </portal>
       <form @submit.prevent="create">
-        <div class="form-group">
-          <label for="image">FILENAME</label>
-          <input type="file" class="form-control-file" id="image" @change="onImageChange">
+        <div class="row border p-3">
+          <div class="col-12 border-bottom h5 font-weight-bold pb-2">Add Image</div>
+          <div class="col-12 d-flex mt-3">
+            <div class="form-group col-md-4">
+              <label for="image">FILENAME</label>
+              <input type="file" class="form-control-file" id="image" @change="onImageChange">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="variant">VARIANT</label>
+              <multiselect v-model="image.viewable_id"
+                           id="variant"
+                           label="name"
+                           track-by="id"
+                           open-direction="bottom"
+                           :options="variantOptions"
+                           :searchable="true"
+                           :show-labels="false">
+              </multiselect>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="alt_text">ALTERNATIVE TEXT</label>
+              <textarea v-model="image.alt" type="text" class="form-control" id="alt_text"></textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Create</button>
+            <span class="mx-2">Or</span>
+            <router-link :to="{ name: 'ImageList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="variant">VARIANT</label>
-          <multiselect v-model="image.viewable_id"
-                       id="variant"
-                       label="name"
-                       track-by="id"
-                       open-direction="bottom"
-                       :options="variantOptions"
-                       :searchable="true"
-                       :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="form-group">
-          <label for="alt_text">ALTERNATIVE TEXT</label>
-          <textarea v-model="image.alt" type="text" class="form-control" id="alt_text"></textarea>
-        </div>
-        <button type="submit" class="btn btn-success"><i class="fa fa-check mr-1" aria-hidden="true"></i>Create</button>
-        <span class="mx-2">Or</span>
-        <router-link :to="{ name: 'ImageList'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
       </form>
     </div>
 </template>

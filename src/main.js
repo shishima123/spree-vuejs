@@ -2,43 +2,22 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import VueMoment from 'vue-moment'
-import Toasted from 'vue-toasted'
+import router from './plugins/vue-router'
 import { store } from './store/store'
-import Multiselect from 'vue-multiselect'
-import Spinner from './components/utils/spinner'
-import { sync } from 'vuex-router-sync'
-import PortalVue from 'portal-vue'
 
-Vue.component('multiselect', Multiselect)
-Vue.component('spinner', Spinner)
-
-let options = {
-  theme: 'toasted-primary',
-  position: 'top-right',
-  duration: 3000,
-  singleton: true
-}
+// plugins
+import './plugins/bootstrap.js'
+import './plugins/toasted'
+import './plugins/axios'
+import './plugins/component'
+import './plugins/portal-vue'
+import './plugins/vue-router-sync'
 
 // you can also pass options, check options reference below
-Vue.use(Toasted, options)
-
-Vue.use(VueAxios, axios)
-Vue.use(VueMoment)
-Vue.use(PortalVue)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$hostServer = 'http://localhost:3000'
-
-axios.defaults.headers.common['X-Spree-Token'] = '894fa3111b5a8c4ff8778f2e20f067a367b665918a6eac28'
-
-sync(store, router)
+Vue.prototype.$hostServer = process.env.VUE_APP_API_LOCATION
 
 /* eslint-disable no-new */
 new Vue({

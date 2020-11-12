@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { store } from '../store/store'
 
 import ProductIndex from '@/components/product/Index'
 import ProductAdd from '@/components/product/Add'
@@ -26,7 +25,7 @@ import VariantAdd from '@/components/variant/Add'
 import VariantEdit from '@/components/variant/Edit'
 Vue.use(Router)
 
-const router = new Router({
+export default new Router({
   routes: [
     {
       path: '/',
@@ -114,13 +113,3 @@ const router = new Router({
     }
   ]
 })
-
-router.beforeEach((to, from, next) => {
-  // fetch current product for breadcrumb
-  if (to.matched.some(m => m.meta.fetchProduct)) {
-    store.dispatch('product/fetchProduct', to.params)
-  }
-  next()
-})
-
-export default router

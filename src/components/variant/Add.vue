@@ -3,7 +3,7 @@
     <div class="col-12">
       <form @submit.prevent="create">
         <div class="row border p-3">
-          <div class="col-12 border-bottom h5 font-weight-bold">New Variant</div>
+          <div class="col-12 border-bottom h5 font-weight-bold pb-2">New Variant</div>
           <div class="col-6 mt-3">
             <div class="form-group">
               <label for="size">Size</label>

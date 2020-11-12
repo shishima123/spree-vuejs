@@ -8,7 +8,8 @@
         <h3 class="text-center m-0">New Product</h3>
       </div>
     </portal>
-    <div class="row">
+    <div class="row border p-3">
+      <div class="col-12 border-bottom h5 font-weight-bold pb-2">Add Product</div>
       <div class="col-12">
         <form @submit.prevent="create">
           <div class="form-group">

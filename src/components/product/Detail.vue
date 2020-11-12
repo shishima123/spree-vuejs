@@ -1,6 +1,7 @@
 <template>
     <div class="col-9">
-      <div class="row">
+      <div class="row border p-3">
+        <div class="col-12 border-bottom h5 font-weight-bold pb-2">Edit Product</div>
         <div class="col-9">
           <div class="form-group">
             <label for="product_name">NAME *</label>
@@ -220,7 +221,7 @@
           </div>
         </div>
         <div class="col-12 mb-5">
-          <button class="btn btn-primary" @click="updateProduct">Update</button>
+          <button type="submit" class="btn btn-success" @click="updateProduct">Update</button>
           <span class="mx-2">Or</span>
           <router-link :to="{ name: 'ProductIndex'}" class="btn btn-outline-dark"><i class="fa fa-times mr-1" aria-hidden="true"></i>Cancel</router-link>
         </div>
