@@ -99,7 +99,7 @@ export default {
         this.errors = {}
         if (typeof response.data !== 'undefined') {
           this.$toasted.success('Create Product Successfully')
-          this.$router.push({name: 'ProductIndex'})
+          this.$router.push({name: 'ProductDetail', params: {product_id: response.data.id}})
         } else {
           this.$toasted.error('Create Product Fail')
         }
